@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>聖誕祝福</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      background-color: #fff;
+      padding: 50px;
+      border-radius: 20px;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+      margin-top: 100px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #e74c3c;
+    }
+    p {
+      font-size: 1.2rem;
+      color: #555;
+    }
+    .button {
+      background-color: #e74c3c;
+      color: white;
+      padding: 15px 30px;
+      text-decoration: none;
+      font-size: 1.2rem;
+      border-radius: 50px;
+      display: inline-block;
+      margin-top: 20px;
+    }
+    .button:hover {
+      background-color: #c0392b;
+    }
+    .heart {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>聖誕快樂！🎄</h1>
+    <p>在這個充滿愛與希望的季節裡，願你和家人充滿歡笑與幸福，享受每一個溫馨的時刻！</p>
+    <p>感謝你的陪伴與支持，祝你新的一年更加美好！</p>
+    <p>送上我最真誠的聖誕祝福，願愛與喜悅常伴左右！</p>
+    <p>🎅🏻 <span class="heart">❤️</span> ⛄</p>
+    <a href="#" class="button">送上祝福</a>
+  </div>
+
+</body>
+</html>
