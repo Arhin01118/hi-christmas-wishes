@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merry Christmas</title>
+    <style>
+        /* 基本頁面設計 */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1e2a47;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            position: relative;
+        }
+
+        /* 標題文字設計 */
+        h1 {
+            font-size: 3rem;
+            color: #ffcc00;
+            text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.7);
+            animation: titleAnimation 3s ease-in-out infinite alternate;
+            z-index: 100;
+        }
+
+        /* 聖誕樹設計 */
+        .tree {
+            font-size: 10rem;  /* 改大聖誕樹的大小 */
+            animation: treeAnimation 2s ease-in-out infinite alternate;
+            margin-top: 30px;
+        }
+
+        /* 煙火效果 */
+        .fireworks {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .firework {
+            position: absolute;
+            width: 6px; /* 改小煙火顆粒 */
+            height: 6px; /* 改小煙火顆粒 */
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: fireworkAnimation 1s ease-out forwards;
+        }
+
+        /* 標題動畫：文字變大閃爍 */
+        @keyframes titleAnimation {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* 聖誕樹動畫：發光效果 */
+        @keyframes treeAnimation {
+            0% {
+                color: #2ecc71;
+            }
+            50% {
+                color: #e74c3c;
+            }
+            100% {
+                color: #f39c12;
+            }
+        }
+
+        /* 煙火動畫：煙火爆發 */
+        @keyframes fireworkAnimation {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3); /* 改小煙火的爆發大小 */
+                opacity: 0;
+                top: 50%;  /* 接近字體時消失 */
+                left: 50%;
+            }
+        }
+
+        /* 發射的煙花粒子 */
+        @keyframes fireworkParticles {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 標題文字 -->
+    <h1>Merry Christmas!</h1>
+
+    <!-- 大顆聖誕樹 -->
+    <div class="tree">🎄</div>
+
+    <!-- 煙火效果 -->
+    <div class="fireworks" id="fireworks"></div>
+
+    <script>
+        // 創建煙火動畫
+        const fireworksContainer = document.getElementById('fireworks');
+
+        // 每次發射的煙火數量（減少密集度）
+        const numFireworks = 3; // 每次發射煙火數量減少
+
+        // 煙火發射的總數（來自四周）
+        const numFireworkLaunchPoints = 6; // 四周多個發射點
+
+        // 創建煙火
+        function createFirework() {
+            // 生成煙火發射源位置（四周隨機發射點）
+            for (let j = 0; j < numFireworkLaunchPoints; j++) {
+                // 隨機選擇發射點在四周的邊緣
+                let startX = Math.random() * 100;
+                let startY = Math.random() * 100;
+
+                // 根據邊緣隨機選擇發射點的位置
+                const edge = Math.floor(Math.random() * 4);  // 隨機選擇四個邊緣之一
+                if (edge === 0) {  // 左邊
+                    startX = 0;
+                    startY = Math.random() * 100;
+                } else if (edge === 1) {  // 右邊
+                    startX = 100;
+                    startY = Math.random() * 100;
+                } else if (edge === 2) {  // 上邊
+                    startX = Math.random() * 100;
+                    startY = 0;
+                } else {  // 下邊
+                    startX = Math.random() * 100;
+                    startY = 100;
+                }
+
+                // 每次發射少量煙火
+                for (let i = 0; i < numFireworks; i++) {
+                    // 創建煙火爆發
+                    const firework = document.createElement('div');
+                    firework.classList.add('firework');
+                    firework.style.left = `${startX}%`; // 隨機煙火的起始位置
+                    firework.style.top = `${startY}%`;
+                    fireworksContainer.appendChild(firework);
+
+                    // 為煙火添加顏色
+                    const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff'];
+                    firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+                    // 動畫隨機持續時間
+                    firework.style.animationDuration = `${Math.random() * 1 + 0.5}s`; // 改短煙火爆發時間
+
+                    // 添加粒子效果
+                    createFireworkParticles(firework, startX, startY);
+                }
+            }
+        }
+
+        // 創建煙火粒子（四射效果）
+        function createFireworkParticles(firework, startX, startY) {
+            const numParticles = 8;  // 每個煙火的粒子數量（適中數量）
+
+            // 四個主要方向的角度
+            const directions = [
+                { angle: 0, x: 1, y: 0 },     // 右
+                { angle: Math.PI, x: -1, y: 0 }, // 左
+                { angle: Math.PI / 2, x: 0, y: 1 }, // 上
+                { angle: -Math.PI / 2, x: 0, y: -1 }, // 下
+            ];
+
+            for (let i = 0; i < numParticles; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = '3px';  // 改小粒子
+                particle.style.height = '3px';  // 改小粒子
+                particle.style.borderRadius = '50%';
+                particle.style.backgroundColor = firework.style.backgroundColor;
+                particle.style.animation = 'fireworkParticles 1s ease-out forwards';
+
+                // 隨機選擇一個方向
+                const direction = directions[Math.floor(Math.random() * directions.length)];
+
+                // 設定每個粒子的起始位置與方向
+                const speed = Math.random() * 4 + 2;  // 隨機速度
+
+                particle.style.left = `${startX}%`;
+                particle.style.top = `${startY}%`;
+
+                // 根據角度設置粒子的移動方向
+                particle.style.transform = `translate(-50%, -50%) translate(${direction.x * speed}px, ${direction.y * speed}px)`;
+
+                fireworksContainer.appendChild(particle);
+
+                // 延遲刪除粒子
+                setTimeout(() => {
+                    particle.remove();
+                }, 1000);
+            }
+        }
+
+        // 每隔 1秒創建煙火（較快的煙火發射）
+        setInterval(createFirework, 1000);
+    </script>
+
+</body>
+</html>
